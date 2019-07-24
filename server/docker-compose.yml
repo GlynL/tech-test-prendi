@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  # backend api
+  tech-test-prendi-api:
+    container_name: api
+    build: ./
+    command: npm start
+    working_dir: /usr/src/tech-test-prendi-api
+    environment:
+      POSTGRES_URI: postgres://prendi:prendi@postgres:5432/tech-test-prendi
+    ports:
+      - "8080:8080"
+
+  # postgres
+  postgres:
+    environment:
+      POSTGRES_USER: prendi
+      POSTGRES_PASSWORD: prendi
+      POSTGRES_DB: tech-test-prendi
+      POSTGRES_HOST: postgres
+    container_name: postgres-prendi
+    build: ./postgres
+    ports:
+      - "1234:5432"
+# docker-compose down
+# docker-compose up --build

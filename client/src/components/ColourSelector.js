@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import StyledButton from "./StyledButton";
 
 const StyledDiv = styled.div`
   flex-basis: 33%;
@@ -9,16 +10,12 @@ const StyledDiv = styled.div`
   }
 `;
 
-const StyledButton = styled.button`
+// extending our StyledButton with a few styles for this use
+const StyledButtonColour = styled(StyledButton)`
   width: 5rem;
-  font-size: 1rem;
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 3px;
   border: 1px solid ${props => props.colour};
   background: ${props => (props.disabled ? props.colour : "none")};
   color: ${props => (props.disabled ? "white" : props.colour)};
-  transition: all 0.3s;
 
   :hover:not([disabled]) {
     cursor: pointer;
@@ -28,6 +25,7 @@ const StyledButton = styled.button`
 `;
 
 const ColourSelector = ({ colour, setColour }) => {
+  // set new colour in state when clicked
   function handleClick({ target }) {
     const newColour = target.dataset.color;
     setColour(newColour);
@@ -35,31 +33,34 @@ const ColourSelector = ({ colour, setColour }) => {
 
   return (
     <StyledDiv>
-      <StyledButton
+      <StyledButtonColour
         onClick={handleClick}
         data-color="hsl(192, 100%, 50%)"
         disabled={colour === "hsl(192, 100%, 50%)"}
         colour="hsl(192, 100%, 50%)"
+        colourSelector
       >
         Iceberg
-      </StyledButton>
-      <StyledButton
+      </StyledButtonColour>
+      <StyledButtonColour
         onClick={handleClick}
         data-color="hsl(341, 100%, 50%)"
         disabled={colour === "hsl(341, 100%, 50%)"}
         colour="hsl(341, 100%, 50%)"
+        colourSelector
       >
         Lipstick
-      </StyledButton>
+      </StyledButtonColour>
 
-      <StyledButton
+      <StyledButtonColour
         onClick={handleClick}
         data-color="hsl(128, 98%, 50%)"
         disabled={colour === "hsl(128, 98%, 50%)"}
         colour="hsl(128, 98%, 50%)"
+        colourSelector
       >
         Spring
-      </StyledButton>
+      </StyledButtonColour>
     </StyledDiv>
   );
 };

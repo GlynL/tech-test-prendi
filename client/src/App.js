@@ -15,15 +15,23 @@ const StyledDiv = styled.div`
   background: #333;
 `;
 
-function App({ children }) {
+// checks localstorage for user and returns their id or null
+const getUserFromStorage = () => {
+  const user = localStorage.getItem("user");
+  return user ? user : null;
+};
+
+function App() {
+  // setup the state for our app - considered context/redux but seemed a bit overkill - would add in if there was a little bit more complexity
   const [colour, setColour] = useState("hsl(192, 100%, 50%)");
   const [clicks, setClicks] = useState([]);
-  const [auth, setAuth] = useState("");
+  const [auth, setAuth] = useState(getUserFromStorage());
   const [error, setError] = useState("");
   const [previouslySavedClicks, setPreviouslySavedClicks] = useState([]);
 
   useEffect(
     () => {
+      // get saved clicks from database and set in state
       const fetchClicks = async () => {
         try {
           const res = await fetch(`http://localhost:8080/clicks/${auth}`);
@@ -36,7 +44,7 @@ function App({ children }) {
           setError("Uh oh... can't fetch previous clicks.");
         }
       };
-
+      // if user is logged in fetch their saved clicks
       if (auth) fetchClicks();
     },
     [auth] /* run anytime the logged in user changes */

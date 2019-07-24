@@ -11,9 +11,9 @@ const UndoAndSaveButtons = ({
 }) => {
   const [error, setError] = useState("");
   function handleClickUndo() {
-    // make a copy of clicks array and remove last item
+    // make a copy of clicks array
     const clicksCopy = [...clicks];
-    // remove last item from copied clicks array - this doesn't mutate even though we have objects nested
+    // remove last item from copied clicks array - .pop doesn't mutate even though we have objects nested
     clicksCopy.pop();
     // set state to new clicks array
     setClicks(clicksCopy);
@@ -30,11 +30,11 @@ const UndoAndSaveButtons = ({
         body: JSON.stringify({ clicks, id: auth })
       });
       // check response ok
-      if (!res.ok) console.log("hi");
+      if (!res.ok) throw new Error();
       const data = await res.json();
-      if (data !== "success") throw new Error();
+      if (data.message !== "success") throw new Error();
       // add the saved clicks to previouslySaved array
-      setPreviouslySavedClicks([...previouslySavedClicks, ...clicks]);
+      setPreviouslySavedClicks([...previouslySavedClicks, ...data.savedClicks]);
       // clear the session clicks
       setClicks([]);
     } catch (err) {

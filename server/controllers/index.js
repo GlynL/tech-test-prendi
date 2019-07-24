@@ -60,18 +60,21 @@ exports.saveClicks = async (req, res, next) => {
   // destructure request body
   const { clicks, id } = req.body;
   try {
-    // loop over each click and insert each into database
-    clicks.forEach(async click => {
+    // loop over each click and insert each into database returning an array of saved items
+    const promises = clicks.map(async click => {
       // destructure click
       const { colour, x, y } = click;
       // setup query
       const text =
-        "INSERT INTO clicks(colour, x, y, user_id) VALUES($1, $2, $3, $4)";
+        "INSERT INTO clicks(colour, x, y, user_id) VALUES($1, $2, $3, $4) RETURNING * ";
       // execute query
-      const query = await pool.query(text, [colour, x, y, id]);
+      return await pool.query(text, [colour, x, y, id]);
+      return query.rows[0];
     });
-    // respond with success
-    res.json("success");
+    const results = await Promise.all(promises);
+    const savedClicks = results.map(result => result.rows[0]);
+    // respond with success and clicks
+    res.json({ message: "success", savedClicks });
   } catch (err) {
     // respond with an error
     res.json("Error! :O");

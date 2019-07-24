@@ -11,14 +11,16 @@ const StyledDiv = styled.div`
 `;
 
 const AuthLinks = ({ auth, setAuth, setPreviouslySavedClicks }) => {
-  const handleClick = () => {
-    setAuth("");
+  // remove user from localStorage, removes auth state, and removes savedClicks state
+  const handleClickLogout = () => {
+    localStorage.removeItem("user");
+    setAuth(null);
     setPreviouslySavedClicks([]);
   };
   return (
     <StyledDiv>
       {auth ? (
-        <StyledButton danger onClick={handleClick}>
+        <StyledButton danger onClick={handleClickLogout}>
           Logout
         </StyledButton>
       ) : (

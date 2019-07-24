@@ -1,6 +1,7 @@
 import React from "react";
 
 const ClickCount = ({ clicks, previouslySavedClicks }) => {
+  // calculate total cliks from session and saved clicks
   const totalClicks = clicks.length + previouslySavedClicks.length;
   return (
     <div>

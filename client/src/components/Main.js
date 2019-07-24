@@ -7,8 +7,11 @@ const StyledSection = styled.section`
 `;
 
 function renderClicks(newClicks, previouslySavedClicks) {
+  // combine all session and saved clicks into one array
   const clicks = [...newClicks, ...previouslySavedClicks];
+  // map over clicks returning a div to display
   return clicks.map(click => {
+    // destructure click
     const { x, y, colour, id } = click;
     return (
       <div
@@ -27,6 +30,7 @@ function renderClicks(newClicks, previouslySavedClicks) {
 }
 
 const Main = ({ clicks, setClicks, previouslySavedClicks, colour }) => {
+  // add click to clicks array when a click is made
   function handleClick({ pageX: x, pageY: y }) {
     setClicks([
       ...clicks,

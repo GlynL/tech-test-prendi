@@ -68,6 +68,8 @@ const Auth = ({ history, type, setAuth }) => {
       const data = await res.json();
       // check registration was successful
       if (data.message !== "success") throw new Error();
+      // save user in storage
+      localStorage.setItem("user", data.id);
       // save user in state
       setAuth(data.id);
       // redirect

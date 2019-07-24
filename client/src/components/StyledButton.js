@@ -1,5 +1,7 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
+// styled button which is used across app
+// takes some props to conditionally style - e.g. colour
 export default styled.button`
   margin-right: 0.5rem;
   padding: 0.5rem;
@@ -13,11 +15,16 @@ export default styled.button`
   text-decoration: none;
   font-size: 1rem;
 
-  :hover {
-    cursor: pointer;
-    background: ${props =>
-      props.danger ? "red" : props.success ? "#08A923" : "#f2f2f2"};
-    color: ${props =>
-      props.colour || props.danger || props.success ? "#f2f2f2" : "#333"};
-  }
+  /* add this hover effect if colourSelector prop not supplied */
+  ${props =>
+    !props.colourSelector &&
+    css`
+      &:hover {
+        cursor: pointer;
+        background: ${props =>
+          props.danger ? "red" : props.success ? "#08A923" : "#f2f2f2"};
+        color: ${props =>
+          props.colour || props.danger || props.success ? "#f2f2f2" : "#333"};
+      }
+    `}
 `;
